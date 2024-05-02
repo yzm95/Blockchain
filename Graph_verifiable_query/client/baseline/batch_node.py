@@ -3,7 +3,7 @@ import csv
 import time
 
 
-def find_n_hop_neighbors_with_attr_at_distance(graph, start_node, n, attr1, attr_value1, attr2, attr_value2):
+def find_n_hop_neighbors_with_attr_at_distance(graph, start_node, n, attr, attr_value):
     if start_node not in graph:
         print(f"The node {start_node} is not in the graph.")
         return set()
@@ -25,9 +25,7 @@ def find_n_hop_neighbors_with_attr_at_distance(graph, start_node, n, attr1, attr
             edge_attrs = graph.get_edge_data(node, neighbor)
             if edge_attrs is not None:
                 for edge_key, edge_attr in edge_attrs.items():
-                    # print(attr2 in edge_attr)
-                    if attr1 in edge_attr and attr2 in edge_attr and str(edge_attr[attr1]) < str(attr_value1) and str(edge_attr[attr2]) > str(attr_value2):
-                        # print(attr1,attr2)
+                    if attr in edge_attr and str(edge_attr[attr]) < str(attr_value):
                         if neighbor not in visited:
                             queue.append((neighbor, distance + 1))
                             break
@@ -69,11 +67,11 @@ with open("E:\\code\\jiaoben\\baseline\\output_sim1000.txt", "r") as file1:
 
             start_node = line.strip()  # 想要查找邻居的节点
             n = 5# 距离
-            attr1 = 'Attribute_3'  # 属性名称
-            attr_value1 = '11001001'  # 属性值
-            attr2 = 'Attribute_8'  # 属性2名称
-            attr_value2 = '200000' # 属性2值
-            neighbors = find_n_hop_neighbors_with_attr_at_distance(G, start_node, n, attr1, attr_value1,attr2, attr_value2)
+            attr = 'Attribute_3'  # 属性名称
+            attr_value = '11001001'  # 属性值
+            # attr2 = 'attr2'  # 属性2名称
+            # attr_value2 = 20  # 属性2值
+            neighbors = find_n_hop_neighbors_with_attr_at_distance(G, start_node, n, attr, attr_value)
             print(neighbors)
         if line_number1 % 100 == 0:
             wo_time = time.time()
